@@ -1241,8 +1241,7 @@ void app_process_rec_packet (int chan, int subchan, int slice, packet_t pp, alev
 // The HEARD line.
 
 	if (( ! q_h_opt ) && alevel.rec >= 0) {    /* suppress if "-q h" option */
-// FIXME: rather than checking for ichannel, how about checking medium==radio
-	 if (chan != audio_config.igate_vchannel) {	// suppress if from ICHANNEL
+	 if (audio_config.chan_medium[chan] == MEDIUM_RADIO) {
 	  if (h != -1 && h != AX25_SOURCE) {
 	    dw_printf ("Digipeater ");
 	  }
@@ -1299,8 +1298,7 @@ void app_process_rec_packet (int chan, int subchan, int slice, packet_t pp, alev
 	  text_color_set(DW_COLOR_ERROR);
 	  dw_printf ("Audio input level is too high.  Reduce so most stations are around 50.\n");
 	}
-// FIXME: rather than checking for ichannel, how about checking medium==radio
-	else if (alevel.rec < 5 && chan != audio_config.igate_vchannel) {
+	else if (alevel.rec < 5 && audio_config.chan_medium[chan] == MEDIUM_RADIO) {
 
 	  text_color_set(DW_COLOR_ERROR);
 	  dw_printf ("Audio input level is too low.  Increase so most stations are around 50.\n");
